@@ -5,12 +5,14 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Plugins.Web;
 using Microsoft.SemanticKernel.Plugins.Web.Bing;
 
-Console.WriteLine("Welcome to the Canteen Chat Bot!");
+Console.WriteLine("Welcome to the Semantic Kernel Example Chat Bot");
+
+var openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? throw new Exception("Create an environment variable named 'OPENAI_API_KEY' with your OpenAI API key");
+var bingConnectorKey = Environment.GetEnvironmentVariable("BING_CONNECTOR_KEY") ?? throw new Exception("Create an environment variable named 'BING_CONNECTOR_KEY' with your Bing API key");
 
 var kernelBuilder = Kernel.CreateBuilder(); 
-
 var kernel = kernelBuilder
-    .AddOpenAIChatCompletion("gpt-4", "YOUR OPENAI API KEY")  //TODO how to handle secret 
+    .AddOpenAIChatCompletion("gpt-4", openAiApiKey) 
     .Build();
  
 // Step 1: Stateless Chat
@@ -80,7 +82,7 @@ class Demographics
 /*
 #pragma warning disable SKEXP0050
 var chatService = kernel.GetRequiredService<IChatCompletionService>();
-kernel.ImportPluginFromObject(new WebSearchEnginePlugin(new BingConnector("YOUR BING API CONNECTOR")));    // Import the web search plugin  //TODO how to handle secret
+kernel.ImportPluginFromObject(new WebSearchEnginePlugin(new BingConnector(bingConnectorKey)));    // Import the web search plugin 
 var settings = new OpenAIPromptExecutionSettings() {ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions}; // Tell the kernel to invoke functions by itself
 var chatHistory = new ChatHistory();
 while (true)

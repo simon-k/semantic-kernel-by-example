@@ -8,7 +8,19 @@ You need to have
 * A Bing Connecter API Key
 
 ## How to run
-TODO: Put keys in secret
+
+Create environment variables for the API keys
+
+```
+export OPENAI_API_KEY=<your key>
+export BING_CONNECTOR_API_KEY=<your key>
+```
+
+Run the console application
+
+```
+dotnet run
+```
 
 ## Things not covered
 ### Logging
