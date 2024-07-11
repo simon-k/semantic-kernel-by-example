@@ -1,0 +1,136 @@
+﻿using HtmlAgilityPack;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.Plugins.Web;
+using Microsoft.SemanticKernel.Plugins.Web.Bing;
+
+Console.WriteLine("Welcome to the Canteen Chat Bot!");
+
+var kernelBuilder = Kernel.CreateBuilder(); 
+
+var kernel = kernelBuilder
+    .AddOpenAIChatCompletion("gpt-4", "YOUR OPENAI API KEY")  //TODO how to handle secret 
+    .Build();
+ 
+// Step 1: Stateless Chat
+// ======================
+// Try to ask the bot "Tell me a taco joke" or "give me a taco recipe" and see how it responds
+// Try to tell the bot "My name is Simon" and "What is my name?" and see how it responds
+/*
+while (true)
+{
+    Console.Write("Q: ");
+    var question = Console.ReadLine();
+    var answer = await kernel.InvokePromptAsync(question);
+    Console.WriteLine($"A: {answer}");
+}
+*/
+
+// Step 2: Stateful Chat
+// =====================
+// Try to ask the bot "What is your name?" and "What is my name?" and see how it responds
+// Tell the bot "I am from Denmark" and ask it "What is my favorite food?" and see how it responds
+/*var chatService = kernel.GetRequiredService<IChatCompletionService>();
+var chatHistory = new ChatHistory();
+while (true)
+{
+    Console.Write("Q: ");
+    chatHistory.AddUserMessage(Console.ReadLine());
+    var answer = await chatService.GetChatMessageContentAsync(chatHistory);
+    Console.WriteLine($"A: {answer}");
+    chatHistory.Add(answer);
+}*/
+
+// Step 3: Stateful Chat with Kernel Function
+// ==========================================
+// Tell the bot "I am from Denmark" and ask it "What is my favorite food?" and see how it responds
+// Ask the bot "How is the weather tomorrow?" and see how it responds
+/*kernel.ImportPluginFromType<Demographics>();                                // Import the demographics as a plugin to the kernel
+var settings = new OpenAIPromptExecutionSettings() {ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions}; // Tell the kernel to invoke functions by itself
+var chatService = kernel.GetRequiredService<IChatCompletionService>();
+var chatHistory = new ChatHistory();
+while (true)
+{
+    Console.Write("Q: ");
+    chatHistory.AddUserMessage(Console.ReadLine());
+    var answer = await chatService.GetChatMessageContentAsync(chatHistory, settings, kernel);
+    Console.WriteLine($"A: {answer}");
+    chatHistory.Add(answer);
+}
+
+class Demographics
+{
+    [KernelFunction]    //Import and allow kernel to invoke this function
+    public string GetFavoriteFood(string country)
+    {
+        return country switch
+        {
+            "Denmark" => "Frikadeller",
+            "USA" => "Hotdogs",
+            "Nexico" => "Tacos",
+            _ => "Unknown"
+        };
+    }
+}*/
+
+// Step 4: Stateful Chat with Binge Search Plugin
+// ==============================================
+// Tell the bot "I am from Denmark" and ask it "How is the weather tomorrow?" and see how it responds
+/*
+#pragma warning disable SKEXP0050
+var chatService = kernel.GetRequiredService<IChatCompletionService>();
+kernel.ImportPluginFromObject(new WebSearchEnginePlugin(new BingConnector("YOUR BING API CONNECTOR")));    // Import the web search plugin  //TODO how to handle secret
+var settings = new OpenAIPromptExecutionSettings() {ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions}; // Tell the kernel to invoke functions by itself
+var chatHistory = new ChatHistory();
+while (true)
+{
+    Console.Write("Q: ");
+    chatHistory.AddUserMessage(Console.ReadLine()!);
+    var answer = await chatService.GetChatMessageContentAsync(chatHistory, settings, kernel);
+    Console.WriteLine($"A: {answer}");
+    chatHistory.Add(answer);
+}
+#pragma warning restore SKEXP0050
+*/
+
+
+// Step 5: Get content from a website
+// ==============================================
+// Ask the bot "What is on the menu on Tuesday?" and "What are the opening hours on sunday?" and see how it responds
+// You could also ask it for "a recipe for the menu on Wednesday"
+kernel.ImportPluginFromType<GetCanteenPlugin>(); 
+var settings = new OpenAIPromptExecutionSettings() {ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions}; // Tell the kernel to invoke functions by itself
+var chatService = kernel.GetRequiredService<IChatCompletionService>();
+var chatHistory = new ChatHistory();
+while (true)
+{
+    Console.Write("Q: ");
+    chatHistory.AddUserMessage(Console.ReadLine());
+    var answer = await chatService.GetChatMessageContentAsync(chatHistory, settings, kernel);
+    Console.WriteLine($"A: {answer}");
+    chatHistory.Add(answer);
+}
+
+class GetCanteenPlugin
+{
+    [KernelFunction]
+    public string GetMenu() {
+        var htmlDoc = new HtmlDocument();
+        htmlDoc.Load("CanteenWebsite/Menu.html");
+        return htmlDoc.Text;
+    }
+
+    [KernelFunction]
+    public string GetOpeningHours() {
+        var htmlDoc = new HtmlDocument();
+        htmlDoc.Load("CanteenWebsite/OpeningHours.html");
+        return htmlDoc.Text;
+    }
+    
+    [KernelFunction]
+    public string GetStaff() {
+        var staff = File.ReadAllText("CanteenWebsite/Staff.json");
+        return staff;
+    }
+}
