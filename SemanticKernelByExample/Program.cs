@@ -10,9 +10,14 @@ Console.WriteLine("Welcome to the Semantic Kernel Example Chat Bot");
 var openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? throw new Exception("Create an environment variable named 'OPENAI_API_KEY' with your OpenAI API key");
 var bingConnectorKey = Environment.GetEnvironmentVariable("BING_CONNECTOR_KEY") ?? throw new Exception("Create an environment variable named 'BING_CONNECTOR_KEY' with your Bing API key");
 
+// Create a HttpClient with certificate revocation list check disabled. Else it might fail on some systems using proxies like Zscaler
+ var handler = new HttpClientHandler();
+ handler.CheckCertificateRevocationList = false;
+ var client = new HttpClient(handler);
+
 var kernelBuilder = Kernel.CreateBuilder(); 
 var kernel = kernelBuilder
-    .AddOpenAIChatCompletion("gpt-4", openAiApiKey) 
+    .AddOpenAIChatCompletion("gpt-4", openAiApiKey, httpClient: client) 
     .Build();
  
 // Step 1: Stateless Chat
