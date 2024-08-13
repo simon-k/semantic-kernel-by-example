@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
@@ -42,6 +43,7 @@ public class KernelFunctionChat : Example
     class Demographics
     {
         [KernelFunction]
+        [Description("Gets the favorite food based on the country you are from")]
         public string GetFavoriteFood(string country)
         {
             return country switch

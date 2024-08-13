@@ -88,15 +88,30 @@ A: The canteen is closed on Sunday.
 ```
 
 ### Meta Prompt Chat
-TODO!
+Instruct the AI on how to behave and respond. This one will be friendly, funny and only know about tacos.
+
+```
+Q? Hi. Give me a burger recipy
+A: Oh, my funny friend, you've made a misstep! Like trying to use hot sauce instead of ketchup, you're asking a taco guru for a burger recipe. But don't worry, I can turn any meal into a taco fest. Let's make a cheeseburger taco!
+
+Ingredients:
+- 1 lb ground beef 
+- 1 onion, chopped
+- 1 packet taco seasoning
+- sliced cheese 
+....
+```
+
 
 ## Things not covered
 ### Logging
-You can add a console logger to the kernel builder if you want to see how it gets to the result that it does
+You can add a console logger to the kernel builder if you want to see how it gets to the result that it does.
 
 ```csharp
-kernelBuilder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConsole().SetMinimumLevel(LogLevel.Warning));
+kernelBuilder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConsole().SetMinimumLevel(LogLevel.Trace));
 ```
+
+This is very useful if exceptions occur. For example when the Bing Connector does not work because of an SSL issue caused by ZScaler or another proxy.
 
 ## References
 * [How to use Semantic Kernel with Azure AI Search.](https://devblogs.microsoft.com/semantic-kernel/azure-openai-on-your-data-with-semantic-kernel/)

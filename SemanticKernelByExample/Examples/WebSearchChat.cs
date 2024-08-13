@@ -12,7 +12,7 @@ namespace SemanticKernelByExample.Examples;
 /// 
 /// Tell the bot "I am from Denmark" and ask it "How is the weather tomorrow?" and see how it responds. It will use Bing to look up the weather.
 /// </summary>
-public class WebSearchChat : Example
+public class WebSearchChat(HttpClient httpClient) : Example
 {
     public override async Task ExecuteAsync(Kernel kernel)
     {
@@ -20,7 +20,7 @@ public class WebSearchChat : Example
         var bingConnectorKey = Environment.GetEnvironmentVariable("BING_CONNECTOR_KEY") ?? throw new Exception("Create an environment variable named 'BING_CONNECTOR_KEY' with your Bing API key");
         
         var chatService = kernel.GetRequiredService<IChatCompletionService>();
-        kernel.ImportPluginFromObject(new WebSearchEnginePlugin(new BingConnector(bingConnectorKey)));    // Import the web search plugin 
+        kernel.ImportPluginFromObject(new WebSearchEnginePlugin(new BingConnector(bingConnectorKey, httpClient)));    // Import the web search plugin. The httpClient with CheckCertificateRevocationList=faklse is needed because of ZScaler or other proxy. You might be able to make it work without if you are not on a corporate network  
         var settings = new OpenAIPromptExecutionSettings() {ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions}; // Tell the kernel to invoke functions by itself
         var chatHistory = new ChatHistory();
         
