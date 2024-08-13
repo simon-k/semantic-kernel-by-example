@@ -8,7 +8,6 @@ You need to have
 * A Bing Connecter API Key, if you want ~~~~to run the Web Search example
 
 ## How to run
-
 Create environment variables for the API keys
 
 ```
@@ -21,7 +20,6 @@ Run the console application
 ```
 dotnet run
 ```
-
 
 ## Examples
 ### Stateless Chat
@@ -102,8 +100,7 @@ Ingredients:
 ....
 ```
 
-
-## Things not covered
+## Other stuff
 ### Logging
 You can add a console logger to the kernel builder if you want to see how it gets to the result that it does.
 
