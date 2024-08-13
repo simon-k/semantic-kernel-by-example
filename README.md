@@ -1,5 +1,7 @@
 # SemanticKernelByExample
-A demo console that demonstrates the usage of Semantic Kernel
+A demo console that demonstrates the usage of Semantic Kernel.
+
+There is a small bonus project that demonstrates how to use the Semantic Kernel with Azure AI Search. See the README.md in the SemanticKernelWithAzureAiSearch folder.
 
 ## Pre-requisites
 You need to have
