@@ -19,8 +19,9 @@ var kernelBuilder = Kernel.CreateBuilder();
     c.AddConsole().SetMinimumLevel(LogLevel.Trace);
 });*/
 
+
 var kernel = kernelBuilder
-    .AddOpenAIChatCompletion("gpt-4", openAiApiKey, httpClient: client) 
+    .AddOpenAIChatCompletion("gpt-4o", openAiApiKey, httpClient: client) 
     .Build();
 
 AnsiConsole.Clear();
