@@ -7,7 +7,7 @@ There is a small bonus project that demonstrates how to use the Semantic Kernel 
 You need to have
 
 * An OpenAI API key
-* A Bing Connecter API Key, if you want ~~~~to run the Web Search example
+* A Bing Connector API Key, if you want to run the Web Search example
 
 ## How to run
 Create environment variables for the API keys

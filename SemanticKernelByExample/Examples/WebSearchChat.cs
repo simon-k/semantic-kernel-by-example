@@ -25,11 +25,10 @@ public class WebSearchChat(HttpClient httpClient) : Example
         var chatHistory = new ChatHistory();
         
         AnsiConsole.Clear();
-        AnsiConsole.MarkupLine("This is a [bold][italic]web search enabled chat[/][/]. It will remember the context of the conversation and use Bing to look up questions if needed. Type [yellow]exit[/] to return to the main menu.");
+        AnsiConsole.MarkupLine("This is a [bold][italic]web search enabled chat[/][/]. It will remember the context of the conversation and use Bing to look up questions if needed.");
         while (true)
         {
             var question = AnsiConsole.Ask<string>("[purple]Q?[/]");
-            if (question == "exit") break; 
             
             chatHistory.AddUserMessage(question);
             var answer = await chatService.GetChatMessageContentAsync(chatHistory, settings, kernel);

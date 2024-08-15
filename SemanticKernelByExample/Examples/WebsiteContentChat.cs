@@ -2,6 +2,7 @@ using HtmlAgilityPack;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Spectre.Console;
 
 namespace SemanticKernelByExample.Examples;
 
@@ -22,11 +23,16 @@ public class WebsiteContentChat : Example
         var settings = new OpenAIPromptExecutionSettings {ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions}; // Tell the kernel to invoke functions by itself
         var chatService = kernel.GetRequiredService<IChatCompletionService>();
         var chatHistory = new ChatHistory();
+        
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("This is a [bold][italic]website parsing chat[/][/]. It will be able to look up content on HTML pages and in JSON data.");
         while (true)
         {
             Console.Write("Q: ");
+            
             chatHistory.AddUserMessage(Console.ReadLine()!);
             var answer = await chatService.GetChatMessageContentAsync(chatHistory, settings, kernel);
+            
             Console.WriteLine($"A: {answer}");
             chatHistory.Add(answer);
         }

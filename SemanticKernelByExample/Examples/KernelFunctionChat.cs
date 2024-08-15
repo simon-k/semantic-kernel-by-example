@@ -21,11 +21,10 @@ public class KernelFunctionChat : Example
         var chatHistory = new ChatHistory();
         
         AnsiConsole.Clear();
-        AnsiConsole.MarkupLine("This is a [bold][italic]stateful chat with kernel function example[/][/]. It will remember the context of the conversation and use a kernel function to derive a response. Type [yellow]exit[/] to return to the main menu.");
+        AnsiConsole.MarkupLine("This is a [bold][italic]stateful chat with kernel function example[/][/]. It will remember the context of the conversation and use a kernel function to derive a response.");
         while (true)
         {
             var question = AnsiConsole.Ask<string>("[purple]Q?[/]");
-            if (question == "exit") break;    
             
             chatHistory.AddUserMessage(question);
             var answer = await chatService.GetChatMessageContentAsync(chatHistory, settings, kernel);

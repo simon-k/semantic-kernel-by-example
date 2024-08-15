@@ -23,7 +23,6 @@ var kernel = kernelBuilder
     .AddOpenAIChatCompletion("gpt-4", openAiApiKey, httpClient: client) 
     .Build();
 
-
 AnsiConsole.Clear();
 var example = AnsiConsole.Prompt(
     new SelectionPrompt<Example>()
