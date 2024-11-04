@@ -14,11 +14,11 @@ Console.WriteLine("Welcome to the Semantic Kernel Example Chat Bot");
 var openAiApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? throw new Exception("Create an environment variable named 'OPENAI_API_KEY' with your OpenAI API key");
 
 var kernelBuilder = Kernel.CreateBuilder();
+
 /*kernelBuilder.Services.AddLogging(c =>
 {
     c.AddConsole().SetMinimumLevel(LogLevel.Trace);
 });*/
-
 
 var kernel = kernelBuilder
     .AddOpenAIChatCompletion("gpt-4o", openAiApiKey, httpClient: client) 
@@ -36,7 +36,9 @@ var example = AnsiConsole.Prompt(
             new KernelFunctionChat(),
             new WebSearchChat(client),
             new WebsiteContentChat(),
-            new MetaPromptChat()
+            new MetaPromptChat(),
+            new Multiagent(),
+            new CodeInterpreter(openAiApiKey)
         ));
     
 example.ExecuteAsync(kernel).Wait();    

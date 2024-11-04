@@ -14,7 +14,7 @@ public class StatelessChat : Example
     public override async Task ExecuteAsync(Kernel kernel)
     {
         AnsiConsole.Clear();
-        AnsiConsole.MarkupLine("This is a [bold][italic]stateless chat example[/][/]. It will not remember the context of the conversation.");
+        AnsiConsole.MarkupLine("[green]This is a [bold][italic]stateless chat example[/][/]. It will not remember the context of the conversation.[/]");
         while (true)
         {
             var question = AnsiConsole.Ask<string>("[purple]Q?[/]");

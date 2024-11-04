@@ -20,7 +20,7 @@ public class StatefulChat : Example
         var chatHistory = new ChatHistory();
         
         AnsiConsole.Clear();
-        AnsiConsole.MarkupLine("This is a [bold][italic]stateful chat example[/][/]. It will remember the context of the conversation.");
+        AnsiConsole.MarkupLine("[green]This is a [bold][italic]stateful chat example[/][/]. It will remember the context of the conversation.[/]");
         while (true)
         {
             var question = AnsiConsole.Ask<string>("[purple]Q?[/]");
