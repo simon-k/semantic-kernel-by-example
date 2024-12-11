@@ -67,6 +67,7 @@ UniqueKeyGenerator<Guid> guidKeyGenerator = new UniqueKeyGenerator<Guid>(() => G
 UniqueKeyGenerator<string> stringKeyGenerator = new UniqueKeyGenerator<string>(() => Guid.NewGuid().ToString());
 IDataLoader dataLoader = new DataLoader<string>(stringKeyGenerator, vectorStoreRecordCollection, textEmbeddingGenerationService, chatCompletionService);
 
+
 Console.WriteLine("* Load data file batch 1");
 var filePathsBatch1 = new string[]
 {   // TODO: Make this a configuration
@@ -74,32 +75,14 @@ var filePathsBatch1 = new string[]
     "Documents/benefit_options.pdf",
     "Documents/PerksPlus.pdf"
 };
-var dataLoaderTask = LoadDataAsync(filePathsBatch1);
-while (!dataLoaderTask.IsCompleted)
-{
-    await Task.Delay(1000).ConfigureAwait(false);
-}
-if (dataLoaderTask.IsFaulted)
-{
-    Console.WriteLine("Failed to load data");
-    return;
-}
+await LoadPdfAsync(filePathsBatch1);
 
 Console.WriteLine("* Load data file batch 2");
 var filePathsBatch2 = new string[]
 { 
     "Documents/role_library.pdf"
 };
-dataLoaderTask = LoadDataAsync(filePathsBatch2);
-while (!dataLoaderTask.IsCompleted)
-{
-    await Task.Delay(1000).ConfigureAwait(false);
-}
-if (dataLoaderTask.IsFaulted)
-{
-    Console.WriteLine("Failed to load data");
-    return;
-}
+await LoadPdfAsync(filePathsBatch2);
 
 // Add a search plugin to the kernel which we will use in the template below
 // to do a vector search for related information to the user query.
@@ -154,6 +137,22 @@ Console.ForegroundColor = ConsoleColor.DarkGreen;
 Console.WriteLine("Exit");
 
 return;
+
+
+async Task LoadPdfAsync(string [] filePaths)
+{
+    var dataLoaderTask = LoadDataAsync(filePaths);
+    while (!dataLoaderTask.IsCompleted)
+    {
+        await Task.Delay(1000).ConfigureAwait(false);
+    }
+    if (dataLoaderTask.IsFaulted)
+    {
+        Console.WriteLine("Failed to load data");
+        return;
+    }
+}
+
 
 /// <summary>
 /// Load all configured PDFs into the vector store.
