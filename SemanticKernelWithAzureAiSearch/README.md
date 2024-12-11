@@ -39,3 +39,19 @@ Ask a question after the Azure AI Search extension is loaded
 Q: What are the contorso company values?
 A: The core values of Contoso Electronics are quality, integrity, innovation, teamwork, respect, excellence, accountability, and community [doc1].
 ```
+
+## How to create the prerequisites
+
+### Create an Azure OpenAI service
+1. Go to the portal and create an Azure OpenAI service.
+2. When it is created, go to the service and its model deployments to deploy fx the gpt4o-mini model and the text-embedding-ada-002 model.
+
+### Create an Azure Blob Storage account
+1. Go to the portal and create a standard Azure Blob Storage account
+2. Create a container and upload a document that you want to search in Azure AI Search
+
+### Create an Azure AI Search service
+1. Go to the portal and create an Azure AI Search service.
+2. When the service is created, go to the service and click "Import and vectorize data"
+
+

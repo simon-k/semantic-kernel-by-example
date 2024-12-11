@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticKernelWithAzureAiSearch", "SemanticKernelWithAzureAiSearch\SemanticKernelWithAzureAiSearch.csproj", "{508E158D-5490-4419-92C2-10E8D0E68E30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticKernelRag", "SemanticKernelRag\SemanticKernelRag.csproj", "{4AE6CB45-D46B-4BF5-B720-B36437707BAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,5 +25,9 @@ Global
 		{508E158D-5490-4419-92C2-10E8D0E68E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{508E158D-5490-4419-92C2-10E8D0E68E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{508E158D-5490-4419-92C2-10E8D0E68E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE6CB45-D46B-4BF5-B720-B36437707BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE6CB45-D46B-4BF5-B720-B36437707BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE6CB45-D46B-4BF5-B720-B36437707BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE6CB45-D46B-4BF5-B720-B36437707BAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

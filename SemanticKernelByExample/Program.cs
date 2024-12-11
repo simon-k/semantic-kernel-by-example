@@ -38,7 +38,9 @@ var example = AnsiConsole.Prompt(
             new WebsiteContentChat(),
             new MetaPromptChat(),
             new Multiagent(),
-            new CodeInterpreter(openAiApiKey)
+            new CodeInterpreter(openAiApiKey),
+            new StructuredResponseChat(),
+            new HttpPluginChat()
         ));
     
 example.ExecuteAsync(kernel).Wait();    
