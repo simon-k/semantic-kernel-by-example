@@ -1,5 +1,5 @@
 ﻿// Inspired by https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples/Demos/VectorStoreRAG
-
+// Find more pdf files here https://github.com/Azure-Samples/azure-search-sample-data/tree/main
 using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -67,13 +67,34 @@ UniqueKeyGenerator<Guid> guidKeyGenerator = new UniqueKeyGenerator<Guid>(() => G
 UniqueKeyGenerator<string> stringKeyGenerator = new UniqueKeyGenerator<string>(() => Guid.NewGuid().ToString());
 IDataLoader dataLoader = new DataLoader<string>(stringKeyGenerator, vectorStoreRecordCollection, textEmbeddingGenerationService, chatCompletionService);
 
-Console.WriteLine("* Load data");
-var dataLoaderTask = LoadDataAsync();
+Console.WriteLine("* Load data file batch 1");
+var filePathsBatch1 = new string[]
+{   // TODO: Make this a configuration
+    "Documents/employee_handbook.pdf",
+    "Documents/benefit_options.pdf",
+    "Documents/PerksPlus.pdf"
+};
+var dataLoaderTask = LoadDataAsync(filePathsBatch1);
 while (!dataLoaderTask.IsCompleted)
 {
     await Task.Delay(1000).ConfigureAwait(false);
 }
+if (dataLoaderTask.IsFaulted)
+{
+    Console.WriteLine("Failed to load data");
+    return;
+}
 
+Console.WriteLine("* Load data file batch 2");
+var filePathsBatch2 = new string[]
+{ 
+    "Documents/role_library.pdf"
+};
+dataLoaderTask = LoadDataAsync(filePathsBatch2);
+while (!dataLoaderTask.IsCompleted)
+{
+    await Task.Delay(1000).ConfigureAwait(false);
+}
 if (dataLoaderTask.IsFaulted)
 {
     Console.WriteLine("Failed to load data");
@@ -138,14 +159,9 @@ return;
 /// Load all configured PDFs into the vector store.
 /// </summary>
 /// <returns>An async task that completes when the loading is complete.</returns>
-async Task LoadDataAsync(CancellationToken cancellationToken = default)     //TODO: Handle cancellation token better
+async Task LoadDataAsync(string[] pdfFilePaths, CancellationToken cancellationToken = default)     //TODO: Handle cancellation token better
 {
-    //TODO: Extract this to a configuration file
-    var pdfFilePaths = new string[]
-    {   // TODO: Make this a configuration
-        "Documents/employee_handbook.pdf"
-    };
-    
+  
     try
     {
         foreach (var pdfFilePath in pdfFilePaths)
